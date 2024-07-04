@@ -1,6 +1,7 @@
 ﻿using Business.Abstract;
 using DataAccess.Abstract;
 using Entities.Concrete;
+using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -57,5 +58,9 @@ namespace Business.Concrete
             return _iCarDal.GetAll(p=>p.ColorId == colorId);
         }
 
+        public List<CarDetailDto> GetProductDetails()
+        {
+            return _iCarDal.GetProductDetails();
+        }
     }
 }
