@@ -33,7 +33,7 @@ namespace Business.Concrete
 
         public IDataResult<List<Customer>> GetAll()
         {
-            return new SuccessDataResult<List<Customer>>();
+            return new SuccessDataResult<List<Customer>>(_customerDal.GetAll());
         }
 
         public IResult Update(Customer customer)

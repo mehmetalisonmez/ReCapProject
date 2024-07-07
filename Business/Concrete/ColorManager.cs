@@ -2,6 +2,7 @@
 using Business.Constants;
 using Core.Utilities;
 using DataAccess.Abstract;
+using DataAccess.Concrete.EntitiyFramework;
 using Entities.Concrete;
 using System;
 using System.Collections.Generic;
@@ -38,7 +39,7 @@ namespace Business.Concrete
         }
         public IDataResult<List<Color>> GetAll()
         {
-            return new SuccessDataResult<List<Color>>(ColorMessages.ColorsListed);
+            return new SuccessDataResult<List<Color>>(_colorDal.GetAll(),ColorMessages.ColorsListed);
         }
 
         
