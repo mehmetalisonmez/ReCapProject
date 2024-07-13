@@ -1,4 +1,5 @@
 ﻿using Core.DataAccess.EntityFramework;
+using Core.Entities.Concrete;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using System;
@@ -11,5 +12,20 @@ namespace DataAccess.Concrete.EntitiyFramework
 {
     public class EfUserDal : EfEntityRepositoryBase<User,RentCarContext> , IUserDal
     {
+        public List<OperationClaim> GetClaims(User user)
+        {
+            using (var context = new RentCarContext())
+            {
+                //OperationClaim'ler ile UserOperationClaimlere join atıyor onlar içerisinde id'si benin gönderdiğim user'a eşit olan id'uyi buluyor operation claim olarakda bunları return ediyoruz
+
+                var result = from operationClaim in context.OperationClaims
+                             join userOperationClaim in context.UserOperationClaims
+                                 on operationClaim.Id equals userOperationClaim.OperationClaimId
+                             where userOperationClaim.UserId == user.Id
+                             select new OperationClaim { Id = operationClaim.Id, Name = operationClaim.Name };
+                return result.ToList();
+
+            }
+        }
     }
 }

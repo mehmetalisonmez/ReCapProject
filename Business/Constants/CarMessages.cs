@@ -16,6 +16,9 @@ namespace Business.Constants
         public static string CarsByBrandId = "Uygun marka id'sine göre araçlar listelendi";
         public static string CarsByColorId = "Uygun renk id'sine göre araçlar listelendi";
         public static string SomeCarsDetails = "Araçların bazı detayları getirildi";
-
+        public static string CarCountOfBrandError = "Bir markaya ait en fazla 5 araç olabilir";
+        public static string CarNameExistsError = "Aynı isimde maksimum 2 araç eklenebilir";
+        public static string ColorLimitExceded = "Renk limiti aşıldığı için araba eklenemiyor" +
+            "";
     }
 }
