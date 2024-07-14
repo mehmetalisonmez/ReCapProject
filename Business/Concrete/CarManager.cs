@@ -2,6 +2,7 @@
 using Business.BusinessAspect.Autofac;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Caching;
 using Core.Aspects.Autofac.Validation;
 using Core.Utilities;
 using Core.Utilities.Business;
@@ -32,6 +33,7 @@ namespace Business.Concrete
 
         [SecuredOperation("admin")]
         [ValidationAspect(typeof(CarValidator))]
+        [CacheRemoveAspect("ICarService.Get")]
         public IResult Add(Car car)
         {
             IResult result = BusinessRules.Run(CheckIfCarCountOfBrandCorrect(car.BrandId), CheckIfCarNameExists(car.CarName),CheckIfColorLimitExceded());
@@ -42,6 +44,8 @@ namespace Business.Concrete
             _iCarDal.Add(car);
             return new SuccessResult(CarMessages.CarAdded);
         }
+
+        [CacheRemoveAspect("ICarService.Get")]
         public IResult Delete(Car car)
         {
             _iCarDal.Delete(car);
@@ -49,31 +53,35 @@ namespace Business.Concrete
         }
 
         [ValidationAspect(typeof(CarValidator))]
+        [CacheRemoveAspect("ICarService.Get")]
         public IResult Update(Car car)
         {
             _iCarDal.Update(car);
             return new SuccessResult(CarMessages.CarUpdated);
         }
 
-
+        [CacheAspect]
         public IDataResult<List<Car>> GetAll()
         {
 
             return new SuccessDataResult<List<Car>>(_iCarDal.GetAll(), CarMessages.CarsListed);
         }
 
+        [CacheAspect]
         public IDataResult<List<Car>> GetCarsByBrandId(int brandId)
         {
             return new SuccessDataResult<List<Car>>(_iCarDal.GetAll(p => p.BrandId == brandId), CarMessages.CarsByBrandId);
 
         }
 
+        [CacheAspect]
         public IDataResult<List<Car>> GetCarsByColorId(int colorId)
         {
             return new SuccessDataResult<List<Car>>(_iCarDal.GetAll(p => p.ColorId == colorId), CarMessages.CarsByColorId);
 
         }
 
+        [CacheAspect]
         public IDataResult<List<CarDetailDto>> GetProductDetails()
         {
             return new SuccessDataResult<List<CarDetailDto>>(_iCarDal.GetProductDetails(), CarMessages.SomeCarsDetails);
